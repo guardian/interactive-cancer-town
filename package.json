@@ -22,9 +22,10 @@
         },
         "remote": {
             "url": "https://interactive.guim.co.uk",
-            "path": "atoms/2018/01/us-interactive-template",
+            "path": "atoms/2019/03/cancer-town",
             "bucket": "gdn-cdn"
-        }
+        },
+        "template": "hybrid"
     },
     "repository": {
         "type": "git",
