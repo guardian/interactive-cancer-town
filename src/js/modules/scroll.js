@@ -15,7 +15,7 @@ export default {
         $(window).resize(function() {
             this.setValues();
             this.onScroll();
-        })
+        }.bind(this))
     },
 
     setValues: function() {
@@ -24,14 +24,31 @@ export default {
 
     onScroll: function() {
         scrollTop = $(window).scrollTop();
-        this.checkVisualisation();
+        this.positionVisualisation();
+        this.setVisualisation();
     },
 
-    checkVisualisation: function() {
+    positionVisualisation: function() {
         if (scrollTop + windowHeight > $('.uit-header').offset().top) {
             $('.uit-visuals').addClass('is-end');
         } else {
             $('.uit-visuals').removeClass('is-end');
         }
+    },
+
+    setVisualisation: function() {
+        const activeSlide = this.getActiveSlide();
+        $('.uit-slides').removeClass('is-0 is-1 is-2').addClass('is-' + activeSlide);
+    },
+
+    getActiveSlide: function() {
+        let activeSlide = 0;
+        $('.uit-slide').each(function(i, el) {
+            if ($(el).offset().top < scrollTop + (windowHeight * 0.5)) {
+                activeSlide = i;
+            }
+        }.bind(this));
+
+        return activeSlide;
     }
 };
