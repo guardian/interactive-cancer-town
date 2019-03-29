@@ -1,0 +1,17 @@
+.uit-slides {
+    position: relative;
+}
+
+.uit-slide {
+    position: relative;
+    z-index: 10;
+    padding: 50vh 0;
+    background-color: transparent;
+}
+
+.uit-slide .uit-slide__title {
+    @include banding($c-black);
+    color: $c-white;
+    font-weight: 600;
+    background-color: transparent;
+}

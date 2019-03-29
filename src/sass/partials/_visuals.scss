@@ -1,0 +1,21 @@
+.uit-visuals {
+    position: fixed;
+    z-index: 0;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 10px;
+    background-color: red;
+
+    @include mq(wide) {
+        width: 1260px;
+        left: calc((100% - 1300px) / 2 + 20px);
+    }
+
+    &.is-end {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        top: auto;
+    }
+}

@@ -36,6 +36,10 @@ figure.interactive-atom {
     display: none !important;
 }
 
+#bannerandheader {
+    position: relative;
+    z-index: 20;
+}
 
 .content__main,
 .prose {
@@ -93,47 +97,6 @@ figure.interactive-atom {
 
         @include mq(wide) {
             margin-left: 160px !important;
-        }
-    }
-
-    .element--supporting,
-    .element-image[data-media-id="dd605e951c9fdc109502bf619bc83a103c00d873"],
-    .element-image[data-media-id="814cee454c8cd74f48c84a37359e12f3f167ec2a"],
-    .element-image[data-media-id="8d26df9cb7bff41aa4296cd124848da6982f06fe"] {
-        position: relative;
-
-        figcaption {
-            padding: 0 !important;
-        }
-
-        .element-image__credit {
-            margin-top: 4px;
-            display: block;
-
-            @include mq(tablet) {
-                margin-top: 0;
-                position: absolute;
-                transform: rotate(-90deg);
-                bottom: 0;
-                left: -4px;
-                transform-origin: left bottom;
-                width: 80%;
-            }
-        }
-
-        .element-image__caption {
-            position: absolute;
-            top: 10px;
-            left: -8px;
-            font-family: 'Guardian Egyptian Condensed';
-            font-size: 20px;
-            color: $c-black !important;
-            background-color: $c-white;
-            padding: 4px 8px;
-
-            @include mq(mobileLandscape) {
-                left: -18px;
-            }
         }
     }
 
@@ -196,9 +159,9 @@ figure.interactive-atom {
     }
 
     h2 {
-        font-family: 'Guardian Egyptian Condensed';
+        font-family: 'Guardian Egyptian Web';
         font-size: 24px;
-        color: $c-black !important;
+        color: $c-black;
         font-weight: normal;
         background-color: $c-white;
         padding: 3px 4px;
@@ -210,21 +173,6 @@ figure.interactive-atom {
         @include mq(tablet) {
             font-size: 34px;
         }
-    }
-
-    .cia__drop-cap {
-        font-family: 'Guardian Egyptian Condensed';
-        display: inline-block;
-        text-transform: uppercase;
-        float: left;
-        color: $c-black;
-        margin-right: 6px;
-        height: 4.3em;
-    }
-
-    .cia__drop-inner {
-        font-size: 5.4em;
-        line-height: 0.85;
     }
 
     p {
