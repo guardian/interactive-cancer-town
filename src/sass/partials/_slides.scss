@@ -1,5 +1,10 @@
 .uit-slides {
     position: relative;
+    margin: 0 -10px;
+
+    @include mq(mobileLandscape) {
+        margin: 0 -20px;
+    }
 }
 
 .uit-slide {

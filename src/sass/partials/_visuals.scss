@@ -8,8 +8,8 @@
     overflow: hidden;
 
     @include mq(wide) {
-        width: 1260px;
-        left: calc((100% - 1300px) / 2 + 20px);
+        width: 1298px;
+        left: calc((100% - 1300px) / 2 + 1px);
     }
 
     &.is-end {
@@ -17,6 +17,10 @@
         bottom: 0;
         left: 0;
         top: auto;
+
+        @include mq(tablet) {
+            left: 1px;
+        }
     }
 }
 
