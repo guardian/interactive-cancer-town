@@ -55,3 +55,10 @@
 .uit-visual__map {
     width: 100%;
 }
+
+.uit-visual__video {
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}

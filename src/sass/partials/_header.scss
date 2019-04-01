@@ -15,6 +15,10 @@
     @include mq(tablet) {
         font-size: 48px;
     }
+
+    @include mq(desktop) {
+        font-size: 72px;
+    }
 }
 
 .uit-header__headline-kicker {
