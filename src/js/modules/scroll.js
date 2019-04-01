@@ -12,7 +12,7 @@ export default {
 
         scroller.setup({
             step: '.uit-slide',
-            offset: 0.4,
+            offset: 0.2,
             progress: true,
             order: true
         })
@@ -41,7 +41,7 @@ export default {
             const scale = obj.progress * 4 + 1;
             $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
         } else if (obj.index === 1) {
-            const scale = obj.progress / 4 + 1;
+            const scale = obj.progress / 2 + 1;
             $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
             $('.uit-visual--0').addClass('has-passed');
         } else if (obj.index === 2) {
