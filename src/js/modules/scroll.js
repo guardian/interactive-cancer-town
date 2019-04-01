@@ -1,54 +1,66 @@
-let scrollTop, windowHeight;
+import 'intersection-observer';
+import scrollama from 'scrollama';
 
 export default {
     init: function() {
         this.bindings();
-        this.setValues();
-        this.onScroll();
     },
 
     bindings: function() {
-        $(window).scroll(function() {
-            this.onScroll();
-        }.bind(this));
+        // scrollama for individual steps
+        let scroller = scrollama();
+
+        scroller.setup({
+            step: '.uit-slide',
+            offset: 0.4,
+            progress: true,
+            order: true
+        })
+        .onStepProgress(this.onSlideProgress);
+
+        // scrollama for entire block
+        let visualsScroller = scrollama();
+
+        visualsScroller.setup({
+            step: '.uit-slides',
+            offset: 1,
+            progress: true
+        })
+        .onStepProgress(this.onHeaderProgress);
 
         $(window).resize(function() {
-            this.setValues();
-            this.onScroll();
-        }.bind(this))
+            scroller.resize();
+            visualsScroller.resize();
+        }.bind(this));
     },
 
-    setValues: function() {
-        windowHeight = $(window).height();
+    onSlideProgress: function(obj) {
+        $('.has-passed').removeClass('has-passed');
+
+        const scale = obj.progress / 3 + 1;
+
+        if (obj.index === 0 || obj.index === 1) {
+            $('.uit-visual--' + obj.index).attr('style', 'transform: scale(' + scale + ')');
+        }
+
+        if (obj.index === 1) {
+            $('.uit-visual--0').addClass('has-passed');
+        }
+
+        if (obj.index === 2) {
+            $('.uit-visual--0, .uit-visual--1').addClass('has-passed');
+        }
+
+        // fix visuals to absolute
     },
 
-    onScroll: function() {
-        scrollTop = $(window).scrollTop();
-        this.positionVisualisation();
-        this.setVisualisation();
-    },
-
-    positionVisualisation: function() {
-        if (scrollTop + windowHeight > $('.uit-header').offset().top) {
+    onHeaderProgress: function(obj) {
+        if (obj.progress >= 1) {
             $('.uit-visuals').addClass('is-end');
         } else {
             $('.uit-visuals').removeClass('is-end');
         }
-    },
 
-    setVisualisation: function() {
-        const activeSlide = this.getActiveSlide();
-        $('.uit-slides').removeClass('is-0 is-1 is-2').addClass('is-' + activeSlide);
-    },
-
-    getActiveSlide: function() {
-        let activeSlide = 0;
-        $('.uit-slide').each(function(i, el) {
-            if ($(el).offset().top < scrollTop + (windowHeight * 0.5)) {
-                activeSlide = i;
-            }
-        }.bind(this));
-
-        return activeSlide;
+        console.log(obj);
     }
-};
+}
