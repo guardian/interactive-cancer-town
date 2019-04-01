@@ -60,7 +60,5 @@ export default {
         } else {
             $('.uit-visuals').removeClass('is-end');
         }
-
-        console.log(obj);
     }
 }

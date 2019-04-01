@@ -9,6 +9,10 @@
     background-color: transparent;
 }
 
+.uit-slide--2 {
+    padding-bottom: 0;
+}
+
 .uit-slide .uit-slide__title {
     @include banding($c-black);
     color: $c-white;
