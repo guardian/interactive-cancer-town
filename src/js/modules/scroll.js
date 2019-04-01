@@ -45,7 +45,11 @@ export default {
             $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
             $('.uit-visual--0').addClass('has-passed');
         } else if (obj.index === 2) {
+            const scale = obj.progress / 2 + 1.5;
+            $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
             $('.uit-visual--0, .uit-visual--1').addClass('has-passed');
+        } else if (obj.index === 3) {
+            $('.uit-visual--0, .uit-visual--1, .uit-visual--2').addClass('has-passed');
         }
 
         // fix visuals to absolute
