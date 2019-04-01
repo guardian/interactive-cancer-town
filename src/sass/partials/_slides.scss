@@ -12,6 +12,11 @@
     z-index: 10;
     padding: 50vh 0;
     background-color: transparent;
+    margin: 0 10px;
+
+    @include mq(mobileLandscape) {
+        margin: 0 20px;
+    }
 }
 
 .uit-slide .uit-slide__title {
