@@ -40,7 +40,7 @@ export default {
         const scale = obj.progress / 3 + 1;
 
         if (obj.index === 0 || obj.index === 1) {
-            $('.uit-visual--' + obj.index).attr('style', 'transform: scale(' + scale + ')');
+            $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
         }
 
         if (obj.index === 1) {

@@ -77,6 +77,19 @@
     margin: auto;
 }
 
+.uit-visual__key {
+    position: absolute;
+    z-index: 2;
+    bottom: 10px;
+    left: 10px;
+    width: 150px;
+}
+
+// placeholder
+.uit-visual__key-image {
+    width: 100%;
+}
+
 .uit-visual__video {
     position: absolute;
     object-fit: cover;
