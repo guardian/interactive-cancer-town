@@ -37,17 +37,14 @@ export default {
     onSlideProgress: function(obj) {
         $('.has-passed').removeClass('has-passed');
 
-        const scale = obj.progress / 3 + 1;
-
-        if (obj.index === 0 || obj.index === 1) {
+        if (obj.index === 0) {
+            const scale = obj.progress * 4 + 1;
             $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
-        }
-
-        if (obj.index === 1) {
+        } else if (obj.index === 1) {
+            const scale = obj.progress / 4 + 1;
+            $(`.uit-visual--${obj.index} .uit-visual__map`).attr('style', 'transform: scale(' + scale + ')');
             $('.uit-visual--0').addClass('has-passed');
-        }
-
-        if (obj.index === 2) {
+        } else if (obj.index === 2) {
             $('.uit-visual--0, .uit-visual--1').addClass('has-passed');
         }
 
