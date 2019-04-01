@@ -1,13 +1,16 @@
 .uit-header {
-    overflow: auto;
+    position: relative;
+    z-index: 5;
 }
 
 .uit-header__headline {
+    @include banding($c-white);
     padding: 6px 0;
     font-family: 'Guardian Egyptian Web';
     font-weight: 700;
     font-size: 24px;
     line-height: 1.1;
+    margin-top: -0.5em;
 
     @include mq(tablet) {
         font-size: 48px;
