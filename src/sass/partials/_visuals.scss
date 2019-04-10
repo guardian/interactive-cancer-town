@@ -39,34 +39,6 @@
     }
 }
 
-.uit-visual {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    transition: opacity 0.3s linear;
-    background-color: $c-white;
-
-    &.has-passed {
-        opacity: 0;
-    }
-}
-
-.uit-visual--0 {
-    z-index: 3;
-}
-
-.uit-visual--1 {
-    z-index: 2;
-}
-
-.uit-visual--2 {
-    background-color: pink;
-    z-index: 1;
-}
-
 .uit-visual__map {
     width: 100%;
     position: absolute;
@@ -77,22 +49,18 @@
     margin: auto;
 }
 
+.uit-visual__video {
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
 .uit-visual__key {
     position: absolute;
     z-index: 2;
     bottom: 10px;
     left: 10px;
     width: 150px;
-}
-
-// placeholder
-.uit-visual__key-image {
-    width: 100%;
-}
-
-.uit-visual__video {
-    position: absolute;
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
 }

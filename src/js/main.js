@@ -4,6 +4,8 @@ window.$ = jquery;
 
 import share from './modules/share.js';
 import scroll from './modules/scroll.js';
+import map from './modules/map.js';
 
 share.init();
 scroll.init();
+map.init();
