@@ -1,19 +1,19 @@
 import * as d3 from 'd3';
 
-let width, height, canvas, ctx, projection;
+let width, height, canvas, ctx, projection, path, zoom;
 
 let layers = [
     {
         url: '{{ path }}/assets/america.png',
-        coords: [[49.112152, -127.143063],[20.714286, -70.209896]]
+        coords: [[-127.143063, 49.112152],[-70.209896, 20.714286]]
     },
     {
         url: '{{ path }}/assets/louisiana.png',
-        coords: [[33.505597, -94.819785],[28.514333, -88.349533]]
+        coords: [[-94.819785, 33.505597],[-88.349533, 28.514333]]
     },
     {
         url: '{{ path }}/assets/louisiana.png',
-        coords: [[30.608970, -91.247849], [29.430020, -89.294753]]
+        coords: [[-91.247849, 30.608970], [-89.294753, 29.430020]]
     }
 ]
 
@@ -26,15 +26,21 @@ export default {
         width = $('.uit-visual__map').width();
         height = $('.uit-visual__map').height();
 
-        projection = d3.geoAlbersUsa()
-            .scale(1)
+        projection = d3.geoMercator()
+            .scale(0.95)
             .translate([width / 2, height / 2]);
 
-        const path = d3.geoPath()
+        path = d3.geoPath()
             .projection(projection);
 
-        const zoom = d3.zoom()
-            .scaleExtent([1, 8]);
+        const initialScaleCenter = this.calculateScaleCenter(layers[0]);
+
+        console.log(initialScaleCenter);
+
+        projection.scale(initialScaleCenter.scale)
+            .center(initialScaleCenter.center)
+            .translate([width / 2, height / 2]);
+
 
         canvas = d3.select('.uit-visual__map')
             .append('canvas')
@@ -69,8 +75,31 @@ export default {
         ctx.clearRect(0, 0, width, height);
 
         layers.forEach(layer => {
-            ctx.drawImage(layer.image, projection(layer.coords[0]), projection(layer.coords[1]));
-        });
+            var dimensions = {
+                x1: projection(layer.coords[0])[0],
+                y1: projection(layer.coords[0])[1],
+                x2: projection(layer.coords[1])[0],
+                y2: projection(layer.coords[1])[1]
+            }
 
+            ctx.drawImage(layer.image, dimensions.x1, dimensions.y1, dimensions.x2 - dimensions.x1, dimensions.y2 - dimensions.y1);
+        });
+    },
+
+    calculateScaleCenter: function(layer) {
+        const scale = 0.95 / Math.max(
+            (projection(layer.coords[1])[0] - projection(layer.coords[0])[0]) / width,
+            (projection(layer.coords[1])[1] - projection(layer.coords[0])[1]) / height
+        );
+
+        const center = [
+            (layer.coords[1][0] + layer.coords[0][0]) / 2,
+            (layer.coords[1][1] + layer.coords[0][1]) / 2
+        ];
+
+        return {
+            'scale': scale,
+            'center': center
+        }
     }
 }
