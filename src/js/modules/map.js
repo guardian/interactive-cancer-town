@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-let width, height, canvas, ctx, projection, path, zoom;
+let width, height, canvas, ctx, projection, path, zoomEvent, initialTransform;
 
 let layers = [
     {
@@ -26,7 +26,7 @@ export default {
         width = $('.uit-visual__map').width();
         height = $('.uit-visual__map').height();
 
-        projection = d3.geoMercator()
+        projection = d3.geoPath()
             .scale(0.95)
             .translate([width / 2, height / 2]);
 
@@ -35,12 +35,13 @@ export default {
 
         const initialScaleCenter = this.calculateScaleCenter(layers[0]);
 
-        console.log(initialScaleCenter);
-
         projection.scale(initialScaleCenter.scale)
             .center(initialScaleCenter.center)
             .translate([width / 2, height / 2]);
 
+        zoomEvent = d3.zoom()
+            .scaleExtent([0, Infinity])
+            .on("zoom", this.zoomed.bind(this));
 
         canvas = d3.select('.uit-visual__map')
             .append('canvas')
@@ -72,6 +73,8 @@ export default {
     },
 
     draw: function() {
+        console.log('drawing');
+        ctx.save();
         ctx.clearRect(0, 0, width, height);
 
         layers.forEach(layer => {
@@ -84,6 +87,8 @@ export default {
 
             ctx.drawImage(layer.image, dimensions.x1, dimensions.y1, dimensions.x2 - dimensions.x1, dimensions.y2 - dimensions.y1);
         });
+
+        ctx.restore();
     },
 
     calculateScaleCenter: function(layer) {
@@ -101,5 +106,9 @@ export default {
             'scale': scale,
             'center': center
         }
-    }
+    },
+
+    trigger: function(slide) {
+        console.log(slide);
+    },
 }

@@ -47,6 +47,11 @@
     left: 0;
     right: 0;
     margin: auto;
+    transition: opacity 0.3s linear;
+
+    &.is-done {
+        opacity: 0;
+    }
 }
 
 .uit-visual__video {

@@ -1,5 +1,8 @@
 import 'intersection-observer';
 import scrollama from 'scrollama';
+import map from '../modules/map.js';
+
+let currentSlide = 0;
 
 export default {
     init: function() {
@@ -35,7 +38,15 @@ export default {
     },
 
     onSlideProgress: function(obj) {
-        // toggle between map and video
+        if (currentSlide !== obj.index) {
+            currentSlide = obj.index;
+            if (obj.index === 3) {
+                $('.uit-visual__map').addClass('is-done');
+            } else {
+                $('.uit-visual__map').removeClass('is-done');
+                map.trigger(obj.index);
+            }
+        }
     },
 
     onHeaderProgress: function(obj) {
