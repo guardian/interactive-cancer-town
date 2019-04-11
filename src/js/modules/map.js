@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-let width, height, canvas, ctx, projection, zoom, scale, translate;
+let width, height, svg, ctx, projection, path, zoom, scale, translate, g;
 
 let layers = [
     {
@@ -25,76 +25,29 @@ export default {
     createMap: function() {
         width = $('.uit-visual__map').width();
         height = $('.uit-visual__map').height();
-        canvas = d3.select('#uit-visual__map')
-            .append('canvas')
+        svg = d3.select('#uit-visual__map')
+            .append('svg')
             .attr('width', width)
             .attr('height', height);
 
-        ctx = canvas.node().getContext('2d');
-        projection = d3.geoMercator().translate([width / 2, height / 2]).scale(.95);
+        projection = d3.geoMercator().scale(1).translate([width / 2, height / 2]);
+        path = d3.geoPath().projection(projection);
+        zoom = d3.zoom().scaleExtent([1, 80]).on('zoom', function() {
+            var transform = d3.event.transform;
+            g.attr('transform', transform);
+        }.bind(this));
 
-        const initialScaleCenter = this.calculateScaleCenter(layers[0]);
+        var g = svg.append('g');
 
-        projection.scale(initialScaleCenter.scale)
-                    .center(initialScaleCenter.center)
-                    .translate([width / 2, height / 2]);
-
-        const images = layers.map(layer => this.loadImage(layer.url));
-
-        Promise.all(images)
-            .then(images => {
-                images.forEach((image, i) => {
-                    layers[i].image = image;
-                    layers[i].x = projection(layers[i].coords[0])[0];
-                    layers[i].y = projection(layers[i].coords[0])[1];
-                    layers[i].width = projection(layers[i].coords[1])[0] - layers[i].x;
-                    layers[i].height = projection(layers[i].coords[1])[1] - layers[i].y;
-                });
-                zoom = d3.zoom().scaleExtent([1, Infinity]).on('zoom', this.zoomed);
-                // this.zoomTo(layers[0].coords);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    },
-
-    calculateScaleCenter: function(layer) {
-        const scale = 0.95 / Math.max(
-            (projection(layer.coords[1])[0] - projection(layer.coords[0])[0]) / width,
-            (projection(layer.coords[1])[1] - projection(layer.coords[0])[1]) / height
-        );
-
-        const center = [
-            (layer.coords[1][0] + layer.coords[0][0]) / 2,
-            (layer.coords[1][1] + layer.coords[0][1]) / 2
-        ];
-
-        return {
-            'scale': scale,
-            'center': center
-        }
-    },
-
-    loadImage: function(url) {
-        return new Promise((fulfill, reject) => {
-            let image = new Image();
-            image.onload = () => fulfill(image);
-            image.src = url;
-        });
-    },
-
-    zoomed: function() {
-        console.log('zoom');
-        var transform = d3.event.transform;
-        ctx.save();
-        ctx.clearRect(0, 0, width, height);
-        ctx.translate(transform.x, transform.y);
-        ctx.scale(transform.k, transform.k);
-
-        layers.forEach((layer, i) => {
-            ctx.drawImage(layer.image, layer.x, layer.y, layer.width, layer.height);
-        });
-        ctx.restore();
+        var images = g.selectAll('image')
+            .data(layers)
+            .enter()
+            .append('svg:image')
+            .attr('xlink:href', function(d) { console.log(d); return d.url })
+            .attr('x', '0')
+            .attr('y', '0')
+            .attr('width', '100')
+            .attr('height', '100');
     },
 
     zoomTo: function(coords) {
@@ -102,22 +55,15 @@ export default {
             dy = coords[1][1] - coords[0][1],
             x = (coords[0][0] + coords[1][0]) / 2,
             y = (coords[0][1] + coords[1][1]) / 2,
-            scale = Math.max(1, Math.min(Infinity, 0.9 / Math.max(dx / width, dy / height))),
+            scale = Math.max(1, Math.min(80, 0.9 / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-        canvas.transition()
+        svg.transition()
             .duration(750)
-            .call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale))
+            .call(zoom.transform, d3.zoomIdentity.translate(translate[1],translate[0]).scale(scale))
     },
 
     trigger: function(layer) {
         this.zoomTo(layers[layer].coords);
-    },
-
-    draw: function() {
-        ctx.clearRect(0, 0, width, height);
-        layers.forEach(layer => {
-            ctx.drawImage(layer.image, layer.x, layer.y, layer.width, layer.height);
-        });
     }
 }
