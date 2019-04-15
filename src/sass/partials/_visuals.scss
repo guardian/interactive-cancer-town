@@ -17,7 +17,7 @@
         left: calc((100% - 980px) / 2 + 1px);
     }
 
-    @include mq(mobileLandscape) {
+    @include mq(leftCol) {
         width: 1138px;
         left: calc((100% - 1140px) / 2 + 1px);
     }
@@ -52,6 +52,12 @@
     &.is-done {
         opacity: 0;
     }
+}
+
+.uit-visuals__feature {
+    stroke: $c-black;
+    fill: none;
+    stroke-width: 0.2;
 }
 
 .uit-visual__video {

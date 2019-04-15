@@ -6,7 +6,7 @@ let width, height, svg, ctx, projection, path, zoom, scale, translate, g;
 let layers = [
     {
         url: '{{ path }}/assets/america.png',
-        coords: [[-127.143063, 49.112152],[-70.209896, 20.714286]]
+        coords: [[-127.143063, 49.112152],[-64.209896, 20.714286]]
     },
     {
         url: '{{ path }}/assets/louisiana.png',
@@ -50,7 +50,7 @@ export default {
             .attr('width', function(d) { return projection(d.coords[1])[0] - projection(d.coords[0])[0] })
             .attr('height', function(d) { return projection(d.coords[1])[1] - projection(d.coords[0])[1] });
 
-        this.zoomTo(layers[0].coords);
+        this.zoomTo(layers[0].coords, true);
 
         d3.json('{{ path }}/assets/json.json')
             .then(function(us, error) {
@@ -59,24 +59,31 @@ export default {
                 .enter()
                 .append('path')
                 .attr('d', path)
-                .attr('class', 'feature');
+                .attr('class', 'uit-visuals__feature');
             });
     },
 
-    zoomTo: function(coords) {
+    zoomTo: function(coords, instant = false) {
         const dx = projection(coords[1])[0] - projection(coords[0])[0],
             dy = projection(coords[1])[1] - projection(coords[0])[1],
             x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
             y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
             scale = Math.max(1, Math.min(1000, 1 / Math.max(dx / width, dy / height))),
-            translate = [width / 2 - scale * x, height / 2 - scale * y];
+            translate = [width / 2 - scale * x, height / 2 - scale * y],
+            duration = instant? 0 : 750;
 
         svg.transition()
-            .duration(750)
+            .duration(duration)
             .call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale))
     },
 
     trigger: function(layer) {
         this.zoomTo(layers[layer].coords);
+    },
+
+    resize: function() {
+        $('.uit-visual__map').empty();
+        this.createMap();
+        console.log('resize complete');
     }
 }

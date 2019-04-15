@@ -34,6 +34,7 @@ export default {
         $(window).resize(function() {
             scroller.resize();
             visualsScroller.resize();
+            map.resize();
         }.bind(this));
     },
 
