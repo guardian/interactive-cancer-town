@@ -6,7 +6,6 @@
     top: 0;
     left: 0;
     overflow: hidden;
-    z-index: 20000;
 
     @include mq(tablet) {
         width: 738px;
@@ -58,12 +57,16 @@
         opacity: 1;
     }
 
+    .is--1 &--0 {
+        opacity: 0.1;
+    }
+
     .is--1 &--1 {
         opacity: 1;
     }
 
     .is--2 &--2 {
-        opacity: 1;
+        // opacity: 1;
     }
 }
 
