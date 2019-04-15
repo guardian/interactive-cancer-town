@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as topojson from 'topojson';
 
 let width, height, svg, ctx, projection, path, zoom, scale, translate, g;
 
@@ -30,9 +31,9 @@ export default {
             .attr('width', width)
             .attr('height', height);
 
-        projection = d3.geoMercator().scale(1).translate([width / 2, height / 2]);
+        projection = d3.geoMercator().translate([width / 2, height / 2]);
         path = d3.geoPath().projection(projection);
-        zoom = d3.zoom().scaleExtent([1, 80]).on('zoom', function() {
+        zoom = d3.zoom().scaleExtent([1, 1000]).on('zoom', function() {
             var transform = d3.event.transform;
             g.attr('transform', transform);
         }.bind(this));
@@ -43,24 +44,36 @@ export default {
             .data(layers)
             .enter()
             .append('svg:image')
-            .attr('xlink:href', function(d) { console.log(d); return d.url })
-            .attr('x', '0')
-            .attr('y', '0')
-            .attr('width', '100')
-            .attr('height', '100');
+            .attr('xlink:href', function(d) { return d.url })
+            .attr('x', function(d) { return projection(d.coords[0])[0] })
+            .attr('y', function(d) { return projection(d.coords[0])[1] })
+            .attr('width', function(d) { return projection(d.coords[1])[0] - projection(d.coords[0])[0] })
+            .attr('height', function(d) { return projection(d.coords[1])[1] - projection(d.coords[0])[1] });
+
+        this.zoomTo(layers[0].coords);
+
+        d3.json('{{ path }}/assets/json.json')
+            .then(function(us, error) {
+            g.selectAll('path')
+                .data(topojson.feature(us, us.objects.states).features)
+                .enter()
+                .append('path')
+                .attr('d', path)
+                .attr('class', 'feature');
+            });
     },
 
     zoomTo: function(coords) {
-        const dx = coords[1][0] - coords[0][0],
-            dy = coords[1][1] - coords[0][1],
-            x = (coords[0][0] + coords[1][0]) / 2,
-            y = (coords[0][1] + coords[1][1]) / 2,
-            scale = Math.max(1, Math.min(80, 0.9 / Math.max(dx / width, dy / height))),
+        const dx = projection(coords[1])[0] - projection(coords[0])[0],
+            dy = projection(coords[1])[1] - projection(coords[0])[1],
+            x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
+            y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
+            scale = Math.max(1, Math.min(1000, 1 / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y];
 
         svg.transition()
             .duration(750)
-            .call(zoom.transform, d3.zoomIdentity.translate(translate[1],translate[0]).scale(scale))
+            .call(zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale))
     },
 
     trigger: function(layer) {
