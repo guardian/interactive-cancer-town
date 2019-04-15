@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-import * as topojson from 'topojson';
 
 let width, height, svg, ctx, projection, path, zoom, scale, translate, g;
 
@@ -45,6 +44,7 @@ export default {
             .enter()
             .append('svg:image')
             .attr('xlink:href', function(d) { return d.url })
+            .attr('class', function(d, i) { return 'uit-visuals__map-image uit-visuals__map-image--' + i})
             .attr('x', function(d) { return projection(d.coords[0])[0] })
             .attr('y', function(d) { return projection(d.coords[0])[1] })
             .attr('width', function(d) { return projection(d.coords[1])[0] - projection(d.coords[0])[0] })
@@ -52,14 +52,14 @@ export default {
 
         this.zoomTo(layers[0].coords, true);
 
-        d3.json('{{ path }}/assets/json.json')
+        d3.json('https://gist.githubusercontent.com/dwtkns/c6945b98afe6cc2fc410/raw/77de7bc07fc3974ec892aa6be46e7e035f637ea8/us.geojson')
             .then(function(us, error) {
-            g.selectAll('path')
-                .data(topojson.feature(us, us.objects.states).features)
-                .enter()
-                .append('path')
-                .attr('d', path)
-                .attr('class', 'uit-visuals__feature');
+                g.selectAll('path')
+                    .data(us.features)
+                    .enter()
+                    .append('path')
+                    .attr('d', path)
+                    .attr('class', 'uit-visuals__feature');
             });
     },
 
@@ -84,6 +84,5 @@ export default {
     resize: function() {
         $('.uit-visual__map').empty();
         this.createMap();
-        console.log('resize complete');
     }
 }

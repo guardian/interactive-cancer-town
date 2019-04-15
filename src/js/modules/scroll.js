@@ -41,6 +41,15 @@ export default {
     onSlideProgress: function(obj) {
         if (currentSlide !== obj.index) {
             currentSlide = obj.index;
+
+            $('.uit-visuals').removeClass('is--0 is--1 is--2 is--3').addClass(function() {
+                var classes = '';
+                for (var i = 0; i <= currentSlide; i++) {
+                    classes += `is--${i} `;
+                }
+                return classes;
+            });
+
             if (obj.index === 3) {
                 $('.uit-visual__map').addClass('is-done');
             } else {
