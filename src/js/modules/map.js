@@ -58,7 +58,7 @@ export default {
             dy = projection(coords[1])[1] - projection(coords[0])[1],
             x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
             y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
-            scale = Math.max(1, Math.min(1000, 1 / Math.max(dx / width, dy / height))),
+            scale = Math.max(1, Math.min(1000, .9 / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y],
             duration = instant? 0 : 750;
 
