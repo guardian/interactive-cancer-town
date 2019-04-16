@@ -1,21 +1,59 @@
 import * as d3 from 'd3';
 
-let width, height, svg, ctx, projection, path, zoom, scale, translate, g;
+let width, height, svg, ctx, projection, zoom, scale, translate;
+
+let labels = {
+    0: [
+        {
+            text: 'Top',
+            coords: [-127.867851146563, 47.89786873427608]
+        },
+        {
+            text: 'Louisiana 51',
+            coords: [-92.081339, 31.177374]
+        }
+    ],
+
+    1: [
+        {
+            text: 'Reserve',
+            coords: [-90.9020068, 29.9334244]
+        },
+        {
+            text: 'New Orleans',
+            coords: [-90.0715, 29.9511]
+        }
+    ],
+
+    2: [
+        {
+            text: 'Reserve',
+            coords: [-90.9020068, 29.9334244]
+        },
+        {
+            text: 'New Orleans',
+            coords: [-90.0715, 29.9511]
+        }
+    ]
+}
 
 let layers = [
     {
         url: '{{ path }}/assets/america.svg',
-        coords: [[-127.867851146563, 47.89786873427608],[-74.11175764877926, 23.52732698168454]]
-    },
-    {
-        url: '{{ path }}/assets/louisiana.svg',
-        coords: [[-94.03945383090473, 33.087156474194146],[-89.01863607235484, 28.985983009532934]]
+        coords: [[-127.867851146563, 47.89786873427608],[-74.26175764877926, 23.16732698168454]],
+        fillScale: .9
     },
     {
         url: '{{ path }}/assets/louisiana.png',
-        coords: [[-91.247849, 30.608970], [-89.294753, 29.430020]]
+        coords: [[-94.03945383090473, 33.087156474194146],[-89.01863607235484, 28.985983009532934]],
+        fillScale: .8
+    },
+    {
+        url: '{{ path }}/assets/reserve.svg',
+        coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
+        fillScale: 1
     }
-]
+];
 
 export default {
     init: function() {
@@ -31,7 +69,6 @@ export default {
             .attr('height', height);
 
         projection = d3.geoAlbers().translate([width / 2, height / 2]);
-        path = d3.geoPath().projection(projection);
         zoom = d3.zoom().scaleExtent([1, 1000]).on('zoom', function() {
             var transform = d3.event.transform;
             g.attr('transform', transform);
@@ -50,15 +87,26 @@ export default {
             .attr('width', function(d) { return projection(d.coords[1])[0] - projection(d.coords[0])[0] })
             .attr('height', function(d) { return projection(d.coords[1])[1] - projection(d.coords[0])[1] });
 
-        this.zoomTo(layers[0].coords, true);
+        var annotations = g.selectAll('text')
+            .data(labels)
+            .enter()
+            .append('svg:text')
+            .attr('class', function(d) { return 'uit-visual__map-label uit-visual__map-label--' + d.layer })
+            .attr('x', function(d) { return projection(d.coords)[0] })
+            .attr('y', function(d) { return projection(d.coords)[1] })
+            .text(function(d) { return d.text });
+
+        this.zoomTo(layers[0], true);
+        this.drawLabels(0);
     },
 
-    zoomTo: function(coords, instant = false) {
-        const dx = projection(coords[1])[0] - projection(coords[0])[0],
+    zoomTo: function(layer, instant = false) {
+        const coords = layer.coords,
+            dx = projection(coords[1])[0] - projection(coords[0])[0],
             dy = projection(coords[1])[1] - projection(coords[0])[1],
             x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
             y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
-            scale = Math.max(1, Math.min(1000, .9 / Math.max(dx / width, dy / height))),
+            scale = Math.max(1, Math.min(1000, layer.fillScale / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y],
             duration = instant? 0 : 750;
 
@@ -68,11 +116,29 @@ export default {
     },
 
     trigger: function(layer) {
-        this.zoomTo(layers[layer].coords);
+        this.zoomTo(layers[layer]);
+        this.drawLabels(layer);
+    },
+
+    drawLabels: function(layer) {
+        if ($(`.uit-visual__map-labels--${layer}`).length === 0) {
+            var g = svg.append('g')
+                .attr('class', `uit-visual__map-labels uit-visual__map-labels--${layer}`)
+                .attr('transform', `translate(-${width / 2}, -${height / 2})`);
+
+            var annotations = g.selectAll('text')
+                .data(labels[layer])
+                .enter()
+                .append('svg:text')
+                .attr('class', function(d) { return 'uit-visual__map-label'})
+                .attr('x', function(d) { return projection(d.coords)[0] * 1.5 })
+                .attr('y', function(d) { return projection(d.coords)[1] * 1.5 })
+                .text(function(d) { return d.text });
+        }
     },
 
     resize: function() {
-        $('.uit-visual__map').empty();
+        $('.uit-visual__map svg').remove();
         this.createMap();
     }
 }
