@@ -1,41 +1,24 @@
 import * as d3 from 'd3';
 
-let width, height, svg, ctx, projection, zoom, scale, translate;
+let width, height, svg, ctx, projection, zoom, scale, translate, annotations;
 
-let labels = {
-    0: [
-        {
-            text: 'Top',
-            coords: [-127.867851146563, 47.89786873427608]
-        },
-        {
-            text: 'Louisiana 51',
-            coords: [-92.081339, 31.177374]
-        }
-    ],
-
-    1: [
-        {
-            text: 'Reserve',
-            coords: [-90.9020068, 29.9334244]
-        },
-        {
-            text: 'New Orleans',
-            coords: [-90.0715, 29.9511]
-        }
-    ],
-
-    2: [
-        {
-            text: 'Reserve',
-            coords: [-90.9020068, 29.9334244]
-        },
-        {
-            text: 'New Orleans',
-            coords: [-90.0715, 29.9511]
-        }
-    ]
-}
+let labels = [
+    {
+        text: 'Louisiana 51',
+        coords: [-92.081339, 31.177374],
+        layer: 0
+    },
+    {
+        text: 'Reserve',
+        coords: [-90.554791, 30.061910],
+        layer: 2
+    },
+    {
+        text: 'New Orleans',
+        coords: [-90.0715, 29.9511],
+        layer: 1
+    }
+]
 
 let layers = [
     {
@@ -72,6 +55,7 @@ export default {
         zoom = d3.zoom().scaleExtent([1, 1000]).on('zoom', function() {
             var transform = d3.event.transform;
             g.attr('transform', transform);
+            annotations.attr('style', 'font-size: ' + (16 / transform.k) + 'px');
         }.bind(this));
 
         var g = svg.append('g');
@@ -87,7 +71,7 @@ export default {
             .attr('width', function(d) { return projection(d.coords[1])[0] - projection(d.coords[0])[0] })
             .attr('height', function(d) { return projection(d.coords[1])[1] - projection(d.coords[0])[1] });
 
-        var annotations = g.selectAll('text')
+        annotations = g.selectAll('text')
             .data(labels)
             .enter()
             .append('svg:text')
@@ -97,7 +81,6 @@ export default {
             .text(function(d) { return d.text });
 
         this.zoomTo(layers[0], true);
-        this.drawLabels(0);
     },
 
     zoomTo: function(layer, instant = false) {
@@ -117,24 +100,6 @@ export default {
 
     trigger: function(layer) {
         this.zoomTo(layers[layer]);
-        this.drawLabels(layer);
-    },
-
-    drawLabels: function(layer) {
-        if ($(`.uit-visual__map-labels--${layer}`).length === 0) {
-            var g = svg.append('g')
-                .attr('class', `uit-visual__map-labels uit-visual__map-labels--${layer}`)
-                .attr('transform', `translate(-${width / 2}, -${height / 2})`);
-
-            var annotations = g.selectAll('text')
-                .data(labels[layer])
-                .enter()
-                .append('svg:text')
-                .attr('class', function(d) { return 'uit-visual__map-label'})
-                .attr('x', function(d) { return projection(d.coords)[0] * 1.5 })
-                .attr('y', function(d) { return projection(d.coords)[1] * 1.5 })
-                .text(function(d) { return d.text });
-        }
     },
 
     resize: function() {
