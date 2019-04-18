@@ -176,3 +176,36 @@
     display: flex;
     justify-content: space-between;
 }
+
+.uit-visual__chart-line {
+    fill: none;
+    stroke: $c-light-red;
+    stroke-width: 3;
+}
+
+.uit-visual__chart-marker {
+    stroke: $c-light-red;
+    stroke-dasharray: 10px 5px;
+}
+
+.uit-visual__chart-axis {
+    .domain {
+        stroke: $c-light-grey;
+    }
+
+    .tick line {
+        stroke: none;
+    }
+}
+
+.uit-visual__chart-axis--y {
+    .domain {
+        stroke: none;
+    }
+
+    .tick text {
+        font-family: 'Guardian Sans Web';
+        font-size: 14px;
+        fill: $c-grey;
+    }
+}
