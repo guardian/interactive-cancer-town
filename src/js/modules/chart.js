@@ -155,13 +155,15 @@ export default {
     createChart: function() {
         $('.content__main-column--interactive p:eq(1)').after('<div class=\'uit-visual__chart\'></div>');
 
-        const width = $('.uit-visual__chart').width();
-        // const height = $('.uit-visual__chart').height();
-        const height = 400;
+        const margin = {top: 10, right: 0, bottom: 30, left: 30};
+        const width = $('.uit-visual__chart').width() - margin.left - margin.right;
+        const height = $('.uit-visual__chart').height()- margin.top - margin.bottom;
         svg = d3.select('.uit-visual__chart')
             .append('svg')
-            .attr('width', width)
-            .attr('height', height + 20);
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         const x = d3.scaleTime().range([0, width]);
         const y = d3.scaleLinear().range([height, 0]);
@@ -191,7 +193,6 @@ export default {
 
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--y')
-            .attr('transform', `translate(20, 0)`)
             .call(d3.axisLeft(y).tickValues([20, 15, 10, 5]));
 
         svg.append('line')

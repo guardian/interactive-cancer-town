@@ -177,6 +177,10 @@
     justify-content: space-between;
 }
 
+.uit-visual__chart {
+    height: 500px;
+}
+
 .uit-visual__chart-line {
     fill: none;
     stroke: $c-light-red;
@@ -196,16 +200,16 @@
     .tick line {
         stroke: none;
     }
-}
-
-.uit-visual__chart-axis--y {
-    .domain {
-        stroke: none;
-    }
 
     .tick text {
         font-family: 'Guardian Sans Web';
         font-size: 14px;
         fill: $c-grey;
+    }
+}
+
+.uit-visual__chart-axis--y {
+    .domain {
+        stroke: none;
     }
 }
