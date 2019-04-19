@@ -23,8 +23,7 @@ export default {
             progress: true,
             order: true
         })
-        .onStepProgress(this.onSlideProgress)
-        .onStepExit(this.onSlideExit);
+        .onStepProgress(this.onSlideProgress);
 
         // scrollama for entire block
         let visualsScroller = scrollama();
@@ -43,10 +42,6 @@ export default {
         }.bind(this));
     },
 
-    onSlideExit: function(cool) {
-        console.log(cool);
-    },
-
     onSlideProgress: function(obj) {
         if (currentSlide !== obj.index) {
             currentSlide = obj.index;
@@ -59,6 +54,7 @@ export default {
                 $parent.find('.uit-visual__map').addClass('is-done');
             } else {
                 $parent.find('.uit-visual__map').removeClass('is-done');
+                // if map or chart goes here
                 map.trigger(obj.index);
             }
         }
@@ -68,15 +64,6 @@ export default {
         const $parent = $(obj.element);
 
         $parent.find('.uit-visuals').removeClass('is-end is-fixed');
-
-        console.log($(window).scrollTop());
-        console.log($parent.next().offset().top - $parent.find('.uit-visuals').height());
-
-        console.log($parent.next().offset());
-        console.log($parent.next());
-
-        console.log($parent.next().offset().top - $parent.find('.uit-visuals').outerHeight(true) < $(window).scrollTop());
-
 
         if (obj.progress >= 1 || $parent.next().offset().top - $parent.find('.uit-visuals').outerHeight(true) < $(window).scrollTop()) {
             $parent.find('.uit-visuals').addClass('is-end');
