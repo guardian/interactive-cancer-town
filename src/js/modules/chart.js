@@ -181,11 +181,6 @@ export default {
         x.domain(d3.extent(data, function(d) { return d.Month; }))
         y.domain([0, 25]);
 
-        svg.append('path')
-            .data([data])
-            .attr('class', 'uit-visual__chart-line')
-            .attr('d', valueLine);
-
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--x')
             .attr('transform', `translate(0, ${height})`)
@@ -208,8 +203,6 @@ export default {
             .attr('y1', y(0.2))
             .attr('y2', y(0.2));
 
-        console.log(svg);
-
         svg.selectAll('.uit-visual__chart-tick')
             .data([25, 20, 15, 10, 5])
             .enter()
@@ -218,6 +211,11 @@ export default {
             .attr('x1', 0)
             .attr('x2', width)
             .attr('y1', function(d) { return y(d) })
-            .attr('y2', function(d) { return y(d) })
+            .attr('y2', function(d) { return y(d) });
+
+        svg.append('path')
+            .data([data])
+            .attr('class', 'uit-visual__chart-line')
+            .attr('d', valueLine);
     }
 }
