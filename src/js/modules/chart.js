@@ -5,145 +5,145 @@ let svg, ctx;
 let data = [
   {
     "Month": "2016 05",
-    "Value": 6.08025
+    "Value": 3.07
   },
   {
     "Month": "2016 06",
-    "Value": 3.081856667
+    "Value": 2.407875
   },
   {
     "Month": "2016 07",
-    "Value": 5.895
+    "Value": 10.91928571
   },
   {
     "Month": "2016 08",
-    "Value": 8.417380952
+    "Value": 12.7998
   },
   {
     "Month": "2016 09",
-    "Value": 7.41369
+    "Value": 8.409444444
   },
   {
     "Month": "2016 10",
-    "Value": 13.58961515
+    "Value": 14.92466667
   },
   {
     "Month": "2016 11",
-    "Value": 18.84567667
+    "Value": 16.15166667
   },
   {
     "Month": "2016 12",
-    "Value": 7.925791667
+    "Value": 10.2365
   },
   {
     "Month": "2017 01",
-    "Value": 6.840813333
+    "Value": 19.0214
   },
   {
     "Month": "2017 02",
-    "Value": 3.002081667
+    "Value": 1.983333333
   },
   {
     "Month": "2017 03",
-    "Value": 1.941251667
+    "Value": 2.74
   },
   {
     "Month": "2017 04",
-    "Value": 4.771485
+    "Value": 10.44911111
   },
   {
     "Month": "2017 05",
-    "Value": 2.00434
+    "Value": 1.762
   },
   {
     "Month": "2017 06",
-    "Value": 7.500883333
+    "Value": 4.943625
   },
   {
     "Month": "2017 07",
-    "Value": 3.629787879
+    "Value": 3.851428571
   },
   {
     "Month": "2017 08",
-    "Value": 4.636281667
+    "Value": 5.004333333
   },
   {
     "Month": "2017 09",
-    "Value": 4.647356667
+    "Value": 8.5437
   },
   {
     "Month": "2017 10",
-    "Value": 5.602461667
+    "Value": 5.8602
   },
   {
     "Month": "2017 11",
-    "Value": 11.17703333
+    "Value": 23.4595
   },
   {
     "Month": "2017 12",
-    "Value": 1.590898485
+    "Value": 2.7885
   },
   {
     "Month": "2018 01",
-    "Value": 6.817143333
+    "Value": 6.748542857
   },
   {
     "Month": "2018 02",
-    "Value": 3.396866852
+    "Value": 4.687811111
   },
   {
     "Month": "2018 03",
-    "Value": 1.382102667
+    "Value": 1.2974875
   },
   {
     "Month": "2018 04",
-    "Value": 1.937685833
+    "Value": 2.8718
   },
   {
     "Month": "2018 05",
-    "Value": 0.8845631818
+    "Value": 0.5310428571
   },
   {
     "Month": "2018 06",
-    "Value": 1.214785333
+    "Value": 0.57336
   },
   {
     "Month": "2018 07",
-    "Value": 0.5131761667
+    "Value": 0.5909666667
   },
   {
     "Month": "2018 08",
-    "Value": 1.050683333
+    "Value": 1.4958625
   },
   {
     "Month": "2018 09",
-    "Value": 1.971898
+    "Value": 2.49117
   },
   {
     "Month": "2018 10",
-    "Value": 6.053004015
+    "Value": 8.26739
   },
   {
     "Month": "2018 11",
-    "Value": 1.798457593
+    "Value": 1.85
   },
   {
     "Month": "2018 12",
-    "Value": 6.409159259
+    "Value": 7.613
   },
   {
     "Month": "2019 01",
-    "Value": 1.948315833
+    "Value": 4.1706
   },
   {
     "Month": "2019 02",
-    "Value": 3.1446725
+    "Value": 1.473285714
   },
   {
     "Month": "2019 03",
-    "Value": 1.64635
+    "Value": 1.55
   }
-];
+]
 
 export default {
     init: function() {
@@ -179,7 +179,7 @@ export default {
         });
 
         x.domain(d3.extent(data, function(d) { return d.Month; }))
-        y.domain([0, 20]);
+        y.domain([0, 25]);
 
         svg.append('path')
             .data([data])
@@ -193,7 +193,7 @@ export default {
 
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--y')
-            .call(d3.axisLeft(y).tickValues([20, 15, 10, 5]));
+            .call(d3.axisLeft(y).tickValues([25, 20, 15, 10, 5]));
 
         svg.append('line')
             .attr('class', 'uit-visual__chart-marker')
