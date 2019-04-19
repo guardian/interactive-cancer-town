@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import chartHTML from '../templates/chart.html';
 
 let svg, ctx;
 
@@ -153,7 +154,8 @@ export default {
     },
 
     createChart: function() {
-        $('.content__main-column--interactive p:eq(1)').after('<div class=\'uit-visual__chart\'></div>');
+        $('.content__main-column--interactive p:eq(1)').after(chartHTML);
+        $('body').trigger('chart-injected');
 
         const margin = {top: 10, right: 0, bottom: 30, left: 30};
         const width = $('.uit-visual__chart').width() - margin.left - margin.right;

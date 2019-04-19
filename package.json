@@ -59,6 +59,7 @@
         "node-watch": "^0.4.0",
         "rollup": "^0.67.3",
         "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-html": "^0.2.1",
         "rollup-plugin-node-resolve": "^3.4.0",
         "rollup-plugin-replace": "^2.2.0",
         "rollup-plugin-terser": "^4.0.4",

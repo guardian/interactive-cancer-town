@@ -8,6 +8,7 @@ var rollup = require('rollup');
 var resolve = require('rollup-plugin-node-resolve');
 var terser = require('rollup-plugin-terser').terser;
 var commonjs = require('rollup-plugin-commonjs');
+var html = require('rollup-plugin-html');
 var replace = require('rollup-plugin-replace');
 var deploy = require('./deploy.js');
 
@@ -26,9 +27,12 @@ module.exports = {
                             'node_modules/jquery/dist/jquery.min.js': [ 'jquery' ]
                         }
                     }),
+                    html({
+                        include: 'src/js/templates/*.html'
+                    }),
                     replace({
                         delimiters: ['{{ ', ' }}'],
-                        path: config.absolutePath 
+                        path: config.absolutePath
                     })
                 ]
             };
