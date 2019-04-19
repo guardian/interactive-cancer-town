@@ -189,11 +189,17 @@ export default {
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--x')
             .attr('transform', `translate(0, ${height})`)
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x).ticks(d3.timeYear.every(1)));
 
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--y')
-            .call(d3.axisLeft(y).tickValues([25, 20, 15, 10, 5]));
+            .call(d3.axisLeft(y).tickFormat(function(d) {
+                if (!Number.isInteger(d)) {
+                    const decimalFormatter = d3.format(".1");
+                    d = decimalFormatter(d);
+                }
+                return d;
+            }).tickValues([25, 20, 15, 10, 5, 0.2]));
 
         svg.append('line')
             .attr('class', 'uit-visual__chart-marker')
@@ -201,5 +207,17 @@ export default {
             .attr('x2', width)
             .attr('y1', y(0.2))
             .attr('y2', y(0.2));
+
+        console.log(svg);
+
+        svg.selectAll('.uit-visual__chart-tick')
+            .data([25, 20, 15, 10, 5])
+            .enter()
+            .append('line')
+            .attr('class', 'uit-visual__chart-tick')
+            .attr('x1', 0)
+            .attr('x2', width)
+            .attr('y1', function(d) { return y(d) })
+            .attr('y2', function(d) { return y(d) })
     }
 }

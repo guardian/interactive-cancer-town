@@ -192,6 +192,11 @@
     stroke-dasharray: 10px 5px;
 }
 
+.uit-visual__chart-tick {
+    stroke: $c-light-grey;
+    stroke-dasharray: 1px 1px;
+}
+
 .uit-visual__chart-axis {
     .domain {
         stroke: $c-light-grey;
