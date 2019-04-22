@@ -3,6 +3,8 @@ import chartHTML from '../templates/chart.html';
 
 let svg, ctx;
 
+let isFirst = true;
+
 let data = [
   {
     "Month": "2016 05",
@@ -150,12 +152,25 @@ export default {
     init: function() {
         $(document).ready(function() {
             this.createChart();
+            this.bindings();
         }.bind(this));
     },
 
     createChart: function() {
-        $('.content__main-column--interactive p:eq(1)').after(chartHTML);
-        $('body').trigger('chart-injected');
+        if (isFirst) {
+            $('.content__main-column--interactive p:eq(1)').after(chartHTML);
+            $('body').trigger('chart-injected');
+
+            const parseTime = d3.timeParse("%Y %m");
+
+            data.forEach(function(d) {
+                d.Month = parseTime(d.Month);
+            });
+
+            isFirst = false;
+        } else {
+            $('.uit-visual__chart svg').remove();
+        }
 
         const margin = {top: 30, right: 0, bottom: 30, left: 30};
         const width = $('.uit-visual__chart').width() - margin.left - margin.right;
@@ -173,12 +188,6 @@ export default {
         const valueLine = d3.line()
             .x(function(d) { return x(d.Month) })
             .y(function(d) { return y(d.Value) });
-
-        const parseTime = d3.timeParse("%Y %m");
-
-        data.forEach(function(d) {
-            d.Month = parseTime(d.Month);
-        });
 
         x.domain(d3.extent(data, function(d) { return d.Month; }))
         y.domain([0, 25]);
@@ -219,5 +228,11 @@ export default {
             .data([data])
             .attr('class', 'uit-visual__chart-line')
             .attr('d', valueLine);
+    },
+
+    bindings: function() {
+        $(window).resize(function() {
+            this.createChart();
+        }.bind(this));
     }
 }
