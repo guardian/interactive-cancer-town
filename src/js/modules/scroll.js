@@ -50,13 +50,17 @@ export default {
 
             $parent.find('.uit-visuals').removeClass('is--0 is--1 is--2 is--3').addClass('is--' + currentSlide);
 
-            if (obj.index === 3) {
-                $parent.find('.uit-visual__map').addClass('is-done');
+            if ($parent.hasClass('uit-slides--header')) {
+                if (obj.index === 3) {
+                    $parent.find('.uit-visual__map').addClass('is-done');
+                } else {
+                    $parent.find('.uit-visual__map').removeClass('is-done');
+                    map.trigger(obj.index);
+                }
             } else {
-                $parent.find('.uit-visual__map').removeClass('is-done');
-                // if map or chart goes here
-                map.trigger(obj.index);
+                chart.trigger(obj.index);
             }
+
         }
     },
 

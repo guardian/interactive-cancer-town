@@ -234,5 +234,9 @@ export default {
         $(window).resize(function() {
             this.createChart();
         }.bind(this));
+    },
+
+    trigger: function(index) {
+        console.log(index);
     }
 }
