@@ -91,6 +91,22 @@
     }
 }
 
+.uit-visual__map-state {
+    font-family: 'Guardian Egyptian Web';
+    font-size: 24px;
+    font-weight: 700;
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+
+    .is--0 &--0,
+    .is--1 &--1,
+    .is--2 &--2 {
+        opacity: 1;
+        transition-delay: 0.6s;
+    }
+}
+
 .uit-visual__map-label {
     font-family: 'Guardian Sans Web';
     text-anchor: middle;

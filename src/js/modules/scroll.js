@@ -54,10 +54,11 @@ export default {
             if ($parent.hasClass('uit-slides--header')) {
                 if (obj.index === 3) {
                     $parent.find('.uit-visual__map').addClass('is-done');
+                    $('.uit-visual__video')[0].currentTime = 0;
                 } else {
                     $parent.find('.uit-visual__map').removeClass('is-done');
-                    map.trigger(obj.index);
                 }
+                map.trigger(obj.index);
             } else {
                 chart.trigger(obj.index);
             }

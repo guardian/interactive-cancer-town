@@ -17,6 +17,11 @@ let layers = [
         url: '{{ path }}/assets/reserve.svg',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
         fillScale: 1.2
+    },
+    {
+        url: '{{ path }}/assets/reserve.svg',
+        coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
+        fillScale: 2
     }
 ];
 
@@ -25,6 +30,26 @@ let states = [
         text: 'Louisiana',
         coords: [-92.081339, 31.177374],
         layer: 0
+    },
+    {
+        text: 'Mississippi',
+        coords: [-90.006281, 31.945074],
+        layer: 1
+    },
+    {
+        text: 'Arkansas',
+        coords: [-92.552641, 33.307679],
+        layer: 1
+    },
+    {
+        text: 'Alabama',
+        coords: [-87.766593, 31.812917],
+        layer: 1
+    },
+    {
+        text: 'Texas',
+        coords: [-95.109551, 31.473760],
+        layer: 1
     }
 ]
 
@@ -74,6 +99,7 @@ export default {
             placeLabels.attr('style', 'font-size: ' + (16 / transform.k) + 'px');
             placeLabels.select('circle').attr('r', 4 / transform.k);
             placeLabels.select('text').attr('y', -10 / transform.k);
+            stateLabels.attr('style', 'font-size: ' + (24 / transform.k) + 'px');
         }.bind(this));
 
         var g = svg.append('g');
@@ -123,7 +149,7 @@ export default {
             .append('text')
             .attr('class', function(d) { return 'uit-visual__map-state uit-visual__map-state--' + d.layer })
             .attr('x', function(d) { return projection(d.coords)[0] })
-            .attr('y', function(d) { return projection(d.coords)[0] })
+            .attr('y', function(d) { return projection(d.coords)[1] })
             .text(function(d) { return d.text })
 
         this.zoomTo(layers[currentLayer], true);
