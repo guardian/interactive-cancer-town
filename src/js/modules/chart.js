@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import chartHTML from '../templates/chart.html';
 
-let svg, ctx, y, x, margin, height, width, valueLine, isFirst = true;
+let svg, ctx, y, x, margin, height, width, valueLine, isFirst = true, currentState = 0;
 
 let states = [
     {
@@ -164,7 +164,6 @@ export default {
     init: function() {
         $(document).ready(function() {
             this.createChart();
-            this.bindings();
         }.bind(this));
     },
 
@@ -236,13 +235,11 @@ export default {
             .attr('y1', function(d) { return y(d) })
             .attr('y2', function(d) { return y(d) });
 
-        this.renderState(0);
+        this.renderState(currentState);
     },
 
-    bindings: function() {
-        $(window).resize(function() {
-            this.createChart();
-        }.bind(this));
+    resize: function() {
+        this.createChart();
     },
 
     renderState: function(state, instant = false) {
@@ -290,6 +287,7 @@ export default {
     },
 
     trigger: function(index) {
+        currentState = index;
         this.renderState(index, true);
 
         y.domain(states[index].domain);

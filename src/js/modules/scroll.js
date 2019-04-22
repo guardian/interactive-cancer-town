@@ -39,6 +39,7 @@ export default {
             scroller.resize();
             visualsScroller.resize();
             map.resize();
+            chart.resize();
         }.bind(this));
     },
 

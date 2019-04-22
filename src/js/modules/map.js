@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-let width, height, svg, ctx, projection, zoom, scale, translate, placeNames;
+let width, height, svg, ctx, projection, zoom, scale, translate, placeNames, currentLayer = 0;
 
 let layers = [
     {
@@ -126,7 +126,7 @@ export default {
             .attr('y', function(d) { return projection(d.coords)[0] })
             .text(function(d) { return d.text })
 
-        this.zoomTo(layers[0], true);
+        this.zoomTo(layers[currentLayer], true);
     },
 
     zoomTo: function(layer, instant = false) {
@@ -145,6 +145,7 @@ export default {
     },
 
     trigger: function(layer) {
+        currentLayer = layer;
         this.zoomTo(layers[layer]);
     },
 
