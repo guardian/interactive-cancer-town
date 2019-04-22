@@ -157,7 +157,7 @@ export default {
         $('.content__main-column--interactive p:eq(1)').after(chartHTML);
         $('body').trigger('chart-injected');
 
-        const margin = {top: 10, right: 0, bottom: 30, left: 30};
+        const margin = {top: 30, right: 0, bottom: 30, left: 30};
         const width = $('.uit-visual__chart').width() - margin.left - margin.right;
         const height = $('.uit-visual__chart').height()- margin.top - margin.bottom;
         svg = d3.select('.uit-visual__chart')
