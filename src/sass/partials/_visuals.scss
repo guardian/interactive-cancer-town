@@ -186,7 +186,25 @@
 }
 
 .uit-visual__chart {
-    height: 500px;
+    height: 350px;
+    margin: 0 10px;
+
+    @include mq(mobileLandscape) {
+        height: 500px;
+        margin: 0 20px;
+    }
+
+    @include mq(tablet) {
+        width: 620px;
+    }
+
+    @include mq(leftCol) {
+        width: 780px;
+    }
+
+    @include mq(wide) {
+        width: 860px;
+    }
 }
 
 .uit-visual__chart-line {
