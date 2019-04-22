@@ -99,6 +99,10 @@
     opacity: 0;
     transition: opacity 0.2s linear;
 
+    &--1 {
+        fill: $c-grey;
+    }
+
     .is--0 &--0,
     .is--1 &--1,
     .is--2 &--2 {
