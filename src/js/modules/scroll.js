@@ -30,7 +30,7 @@ export default {
 
         visualsScroller.setup({
             step: parent,
-            offset: parent === '.uit-slides--header' ? 1 : 0,
+            offset: 0,
             progress: true
         })
         .onStepProgress(this.onHeaderProgress);

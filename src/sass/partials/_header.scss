@@ -1,23 +1,33 @@
 .uit-header {
     position: relative;
     z-index: 5;
+    margin-top: 6px;
+}
+
+.uit-header__tag {
+    display: block;
+    font-family: 'Guardian Egyptian Web';
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.1;
+    color: $c-red;
+
+    @include mq(tablet) {
+        font-size: 24px;
+    }
 }
 
 .uit-header__headline {
     @include banding($c-white);
-    padding: 6px 0;
+    padding-bottom: 6px;
     font-family: 'Guardian Egyptian Web';
     font-weight: 700;
-    font-size: 24px;
+    font-size: 32px;
     line-height: 1.1;
-    margin-top: -0.5em;
+    margin: 0;
 
     @include mq(tablet) {
         font-size: 48px;
-    }
-
-    @include mq(desktop) {
-        font-size: 72px;
     }
 }
 
