@@ -1,9 +1,21 @@
 import * as d3 from 'd3';
 import chartHTML from '../templates/chart.html';
 
-let svg, ctx;
+let svg, ctx, y, x, margin, height, width, valueLine, isFirst = true;
 
-let isFirst = true;
+let states = [
+    {
+        domain: [0, 2],
+        ticks: [0.2, 0.5, 1, 1.5, 2]
+    },
+
+    {
+        domain: [0, 25],
+        ticks: [0.2, 5, 10, 15, 20, 25]
+    }
+];
+
+let ticks = states[0].ticks.concat(states[1].ticks);
 
 let data = [
   {
@@ -172,9 +184,9 @@ export default {
             $('.uit-visual__chart svg').remove();
         }
 
-        const margin = {top: 30, right: 0, bottom: 30, left: 30};
-        const width = $('.uit-visual__chart').width() - margin.left - margin.right;
-        const height = $('.uit-visual__chart').height()- margin.top - margin.bottom;
+        margin = {top: 30, right: 0, bottom: 30, left: 30};
+        width = $('.uit-visual__chart').width() - margin.left - margin.right;
+        height = $('.uit-visual__chart').height()- margin.top - margin.bottom;
         svg = d3.select('.uit-visual__chart')
             .append('svg')
             .attr('width', width + margin.left + margin.right)
@@ -182,15 +194,14 @@ export default {
             .append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-        const x = d3.scaleTime().range([0, width]);
-        const y = d3.scaleLinear().range([height, 0]);
+        x = d3.scaleTime().range([0, width]);
+        y = d3.scaleLinear().range([height, 0]);
 
-        const valueLine = d3.line()
+        valueLine = d3.line()
             .x(function(d) { return x(d.Month) })
             .y(function(d) { return y(d.Value) });
 
         x.domain(d3.extent(data, function(d) { return d.Month; }))
-        y.domain([0, 25]);
 
         svg.append('g')
             .attr('class', 'uit-visual__chart-axis uit-visual__chart-axis--x')
@@ -205,7 +216,7 @@ export default {
                     d = decimalFormatter(d);
                 }
                 return d;
-            }).tickValues([25, 20, 15, 10, 5, 0.2]));
+            }).tickValues(ticks))
 
         svg.append('line')
             .attr('class', 'uit-visual__chart-marker')
@@ -214,20 +225,18 @@ export default {
             .attr('y1', y(0.2))
             .attr('y2', y(0.2));
 
+            // remove 0.2 from this
         svg.selectAll('.uit-visual__chart-tick')
-            .data([25, 20, 15, 10, 5])
+            .data(ticks)
             .enter()
             .append('line')
-            .attr('class', 'uit-visual__chart-tick')
+            .attr('class', function(d) { return 'uit-visual__chart-tick uit-visual__chart-tick--' + d.toString().replace('.', '-'); })
             .attr('x1', 0)
             .attr('x2', width)
             .attr('y1', function(d) { return y(d) })
             .attr('y2', function(d) { return y(d) });
 
-        svg.append('path')
-            .data([data])
-            .attr('class', 'uit-visual__chart-line')
-            .attr('d', valueLine);
+        this.renderState(0);
     },
 
     bindings: function() {
@@ -236,7 +245,53 @@ export default {
         }.bind(this));
     },
 
+    renderState: function(state, instant = false) {
+        const transition = svg.transition()
+            .duration(instant ? 750 : 0);
+
+        y.domain(states[state].domain);
+
+        svg.select('.uit-visual__chart-axis--y')
+            .transition(transition)
+            .call(d3.axisLeft(y).tickFormat(function(d) {
+                if (!Number.isInteger(d)) {
+                    const decimalFormatter = d3.format(".1f");
+                    d = decimalFormatter(d);
+                }
+                return d;
+            }).tickValues(states[state].ticks));
+
+        transition.select('.uit-visual__chart-marker')
+            .attr('y1', y(0.2))
+            .attr('y2', y(0.2));
+
+        transition.selectAll('.uit-visual__chart-tick')
+            .attr('y1', function(d) { return y(d) })
+            .attr('y2', function(d) { return y(d) });
+
+        if (state === 1) {
+            if ($('.uit-visual__chart-line').length === 0) {
+                const line = svg.append('path')
+                    .data([data])
+                    .attr('class', 'uit-visual__chart-line')
+                    .attr('d', valueLine);
+            }
+
+            const l = $('.uit-visual__chart-line')[0].getTotalLength();
+
+            svg.select('.uit-visual__chart-line')
+                .attr('stroke-dasharray', l + ' ' + l)
+                .attr('stroke-dashoffset', l);
+
+            transition.delay(750)
+                .select('.uit-visual__chart-line')
+                .attr('stroke-dashoffset', 0);
+        }
+    },
+
     trigger: function(index) {
-        console.log(index);
+        this.renderState(index, true);
+
+        y.domain(states[index].domain);
     }
 }

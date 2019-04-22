@@ -193,6 +193,11 @@
     fill: none;
     stroke: $c-light-red;
     stroke-width: 3;
+    transition: opacity 0.4s linear;
+
+    .is--0 & {
+        opacity: 0;
+    }
 }
 
 .uit-visual__chart-marker {
@@ -203,6 +208,21 @@
 .uit-visual__chart-tick {
     stroke: $c-light-grey;
     stroke-dasharray: 1px 1px;
+    transition: opacity 0.4s linear;
+    transition-delay: 0.3s;
+}
+
+.uit-visual__chart-tick--0-2 {
+    display: none;
+}
+
+.is--1 {
+    .uit-visual__chart-tick--0-5,
+    .uit-visual__chart-tick--1,
+    .uit-visual__chart-tick--1-5,
+    .uit-visual__chart-tick--2-0 {
+        opacity: 0;
+    }
 }
 
 .uit-visual__chart-axis {
