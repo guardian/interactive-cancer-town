@@ -28,4 +28,8 @@
 
 .uit-slide__title-highlight {
     color: $c-light-red;
+
+    .uit-slides--header .uit-slide--0 & {
+        color: #ff9933;
+    }
 }
