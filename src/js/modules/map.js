@@ -6,7 +6,7 @@ let layers = [
     {
         url: '{{ path }}/assets/america.svg',
         coords: [[-127.867851146563, 47.89786873427608],[-74.26175764877926, 23.16732698168454]],
-        fillScale: .9
+        fillScale: .8
     },
     {
         url: '{{ path }}/assets/louisiana.png',
@@ -14,12 +14,12 @@ let layers = [
         fillScale: .8
     },
     {
-        url: '{{ path }}/assets/reserve.svg',
+        url: '{{ path }}/assets/reserve.png',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
         fillScale: 1.2
     },
     {
-        url: '{{ path }}/assets/reserve.svg',
+        url: '{{ path }}/assets/reserve.png',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
         fillScale: 2
     }
