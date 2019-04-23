@@ -16,7 +16,7 @@ let layers = [
     {
         url: '{{ path }}/assets/reserve.png',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
-        fillScale: 1.2
+        fillScale: 1.5
     },
     {
         url: '{{ path }}/assets/reserve.png',
@@ -87,6 +87,7 @@ export default {
     createMap: function() {
         width = $('.uit-visual__map').width();
         height = $('.uit-visual__map').height();
+        height = height > 800 ? 800 : height;
         svg = d3.select('#uit-visual__map')
             .append('svg')
             .attr('width', width)
