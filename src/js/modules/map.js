@@ -93,7 +93,7 @@ export default {
             .attr('height', height);
 
         projection = d3.geoAlbers().translate([width / 2, height / 2]);
-        zoom = d3.zoom().scaleExtent([1, 1000]).on('zoom', function() {
+        zoom = d3.zoom().scaleExtent([0, 1000]).on('zoom', function() {
             var transform = d3.event.transform;
             g.attr('transform', transform);
             placeLabels.attr('style', 'font-size: ' + (16 / transform.k) + 'px');
@@ -161,7 +161,7 @@ export default {
             dy = projection(coords[1])[1] - projection(coords[0])[1],
             x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
             y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
-            scale = Math.max(1, Math.min(1000, layer.fillScale / Math.max(dx / width, dy / height))),
+            scale = Math.max(0.2, Math.min(1000, layer.fillScale / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y],
             duration = instant? 0 : 750;
 
