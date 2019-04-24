@@ -28,8 +28,13 @@ let layers = [
 let states = [
     {
         text: 'Louisiana',
-        coords: [-92.081339, 31.177374],
+        coords: [-91.081339, 25.877374],
         layer: 0
+    },
+    {
+        text: 'Louisiana',
+        coords: [-92.881339, 32.077374],
+        layer: 1
     },
     {
         text: 'Mississippi',
@@ -148,7 +153,7 @@ export default {
             .data(states)
             .enter()
             .append('text')
-            .attr('class', function(d) { return 'uit-visual__map-state uit-visual__map-state--' + d.layer })
+            .attr('class', function(d) { return 'uit-visual__map-state uit-visual__map-state--' + d.text.toLowerCase() + ' uit-visual__map-state--' + d.layer })
             .attr('x', function(d) { return projection(d.coords)[0] })
             .attr('y', function(d) { return projection(d.coords)[1] })
             .text(function(d) { return d.text })
