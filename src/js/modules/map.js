@@ -61,7 +61,7 @@ let states = [
 let places = [
     {
         text: 'Reserve',
-        coords: [-90.554791, 30.061910],
+        coords: [-90.523362, 30.056484],
         layer: 2
     },
     {
