@@ -110,6 +110,10 @@
         opacity: 1;
         transition-delay: 0.6s;
     }
+
+    &--reserve {
+        fill: $c-white;
+    }
 }
 
 .uit-visuals__feature {

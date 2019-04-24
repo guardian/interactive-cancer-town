@@ -135,7 +135,7 @@ export default {
             .data(places)
             .enter()
             .append('g')
-            .attr('class', function(d) { return 'uit-visual__map-label uit-visual__map-label--' + d.layer })
+            .attr('class', function(d) { return 'uit-visual__map-label uit-visual__map-label--' + d.text.toLowerCase() + ' uit-visual__map-label--' + d.layer })
             .attr('transform', function(d) { return `translate(${projection(d.coords)[0]}, ${projection(d.coords)[1]})` })
 
         placeLabels.append('circle')
