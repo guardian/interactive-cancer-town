@@ -171,6 +171,24 @@
     }
 }
 
+.uit-visual__source {
+    position: absolute;
+    z-index: 5;
+    bottom: 10px;
+    right: 10px;
+    font-family: 'Guardian Sans Web';
+    max-width: 50%;
+
+    @include mq(mobileLandscape) {
+        right: 20px;
+    }
+
+    .uit-slides--chart & {
+        right: auto;
+        left: 20px;
+    }
+}
+
 .uit-visual__key-title {
     margin: 0;
     font-family: 'Guardian Sans Web';
@@ -200,6 +218,7 @@
 .uit-visual__chart {
     height: 350px;
     margin: 0 10px;
+    padding-bottom: 30px;
 
     @include mq(mobileLandscape) {
         height: 500px;
