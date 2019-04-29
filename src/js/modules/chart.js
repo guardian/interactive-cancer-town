@@ -242,7 +242,7 @@ export default {
             .attr('class', 'uit-visual__chart-marker-background')
             .attr('x', (width / 2) - (textWidth / 2))
             .attr('y', y(0.2))
-            .attr('height', 24)
+            .attr('height', 2)
             .attr('width', textWidth)
 
         svg.append('text')
@@ -292,7 +292,7 @@ export default {
             .attr('y', y(0.2));
 
         transition.select('.uit-visual__chart-marker-background')
-            .attr('y', y(0.2) - 12);
+            .attr('y', y(0.2) - 1);
 
         transition.selectAll('.uit-visual__chart-tick')
             .attr('y1', function(d) { return y(d) })
