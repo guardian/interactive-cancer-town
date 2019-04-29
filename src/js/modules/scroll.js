@@ -19,7 +19,7 @@ export default {
 
         scroller.setup({
             step: parent + ' .uit-slide',
-            offset: 0.2,
+            offset: 0.4,
             progress: true,
             order: true
         })
