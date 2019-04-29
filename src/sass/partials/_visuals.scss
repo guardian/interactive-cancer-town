@@ -194,6 +194,7 @@
         right: 0;
         padding-left: 10px;
         color: $c-dark-grey;
+        font-size: 14px;
 
         @include mq(mobileLandscape) {
             padding-left: 20px;

@@ -60,45 +60,16 @@ figure.interactive-atom {
         }
     }
 
-    p:first-letter {
-        color: inherit !important;
-        font-family: inherit !important;
-        font-weight: inherit !important;
-        font-size: inherit !important;
-        float: none !important;
-        margin: 0 !important;
-        line-height: inherit !important;
-        padding: 0 !important;
-    }
+    p > a {
+        border-bottom: 1px solid $c-light-red;
 
-    .element-rich-link {
-        display: none;
-    }
-
-    .element--supporting {
-        margin-bottom: 12px !important;
-        width: 140px !important;
-        float: left;
-        margin-top: 0 !important;
-        margin-right: 10px !important;
-
-        @include mq(mobileLandscape) {
-            margin-right: 20px !important;
-        }
-
-        @include mq(tablet) {
-            width: 220px !important;
-        }
-
-        @include mq(leftCol) {
-            margin-left: 80px !important;
-        }
-
-        @include mq(wide) {
-            margin-left: 160px !important;
+        &:hover {
+            text-decoration: none;
+            border-bottom-color: $c-red;
         }
     }
 
+    .element-atom--media,
     .element--showcase {
         margin-left: -10px !important;
         margin-right: -10px !important;
@@ -138,13 +109,59 @@ figure.interactive-atom {
         }
     }
 
-    .figure__caption__icon {
+    .figure__caption__icon,
+    .caption--video {
         display: none !important;
     }
 
     .element-image img {
         width: 100%;
         height: auto;
+    }
+
+    .element-rich-link {
+        margin-left: 0;
+        background-color: $c-off-white;
+        border-top: 1px solid $c-light-red;
+        padding: 3px 5px;
+        box-sizing: border-box;
+
+        &:hover {
+            background-color: darken($c-off-white, 5%);
+            cursor: pointer;
+        }
+
+        p {
+            margin: 0;
+            font-family: 'Guardian Egyptian Web';
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 1.25;
+        }
+
+        &:after {
+            content: ' \A Read more';
+            display: inline-block;
+            font-family: 'Guardian Egyptian Web';
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.4;
+            color: $c-red !important;
+            background: url('{{ path }}/assets/arrow.svg');
+            background-repeat: no-repeat;
+            background-position: center right;
+            padding-right: 26px;
+            margin-top: 12px;
+        }
+
+        span {
+            display: none;
+        }
+
+        a {
+            color: $c-black;
+            border: none;
+        }
     }
 
     figcaption {
@@ -160,14 +177,11 @@ figure.interactive-atom {
     h2 {
         font-family: 'Guardian Egyptian Web';
         font-size: 24px;
-        color: $c-black;
-        font-weight: normal;
-        background-color: $c-white;
-        padding: 3px 4px;
+        color: $c-red;
+        font-weight: 700;
+        padding: 3px 0px;
         display: inline-block;
-        padding: 0 8px;
         line-height: 1.4;
-        margin-bottom: 12px;
 
         @include mq(tablet) {
             font-size: 34px;
@@ -178,28 +192,10 @@ figure.interactive-atom {
         margin-bottom: 1.5rem;
     }
 
-    p > a {
-        background-color: $c-white !important;
-        background-image: none !important;
-        padding: 4px;
-        color: $c-black !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-
-        &:hover {
-            color: $c-white !important;
-            background-color: $c-black !important;
-            text-decoration: none !important;
-            border-bottom: 0 !important;
-            box-shadow: none !important;
-        }
-    }
-
     // app stuff
-        figure.element.element-image.figure-wide {
-            margin: 0;
-        }
+    figure.element.element-image.figure-wide {
+        margin: 0;
+    }
 
     figure.element.element-image.element--supporting.figure-wide {
         margin-left: 0 !important;
