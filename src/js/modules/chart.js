@@ -167,9 +167,21 @@ export default {
         }.bind(this));
     },
 
+    findPlaceToInject: function() {
+        var $el;
+        $('.content__main-column--interactive p').each(function(i, el) {
+            if ($(el).text() == '[INSERT THE GRAPH FROM THE SCHOOL HERE]') {
+                $el = el;
+            }
+        });
+        return $el;
+    },
+
     createChart: function() {
         if (isFirst) {
-            $('.content__main-column--interactive p:eq(1)').after(chartHTML);
+            var target = this.findPlaceToInject();
+
+            $(target).replaceWith(chartHTML);
             $('body').trigger('chart-injected');
 
             const parseTime = d3.timeParse("%Y %m");
