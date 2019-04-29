@@ -236,7 +236,21 @@ export default {
             .attr('y1', y(0.2))
             .attr('y2', y(0.2));
 
-            // remove 0.2 from this
+        var textWidth = 66 + 8;
+
+        svg.append('rect')
+            .attr('class', 'uit-visual__chart-marker-background')
+            .attr('x', (width / 2) - (textWidth / 2))
+            .attr('y', y(0.2))
+            .attr('height', 24)
+            .attr('width', textWidth)
+
+        svg.append('text')
+            .attr('class', 'uit-visual__chart-marker-label')
+            .attr('x', width / 2)
+            .attr('y', y(0.2))
+            .text('Safe level');
+
         svg.selectAll('.uit-visual__chart-tick')
             .data(ticks)
             .enter()
@@ -273,6 +287,12 @@ export default {
         transition.select('.uit-visual__chart-marker')
             .attr('y1', y(0.2))
             .attr('y2', y(0.2));
+
+        transition.select('.uit-visual__chart-marker-label')
+            .attr('y', y(0.2));
+
+        transition.select('.uit-visual__chart-marker-background')
+            .attr('y', y(0.2) - 12);
 
         transition.selectAll('.uit-visual__chart-tick')
             .attr('y1', function(d) { return y(d) })

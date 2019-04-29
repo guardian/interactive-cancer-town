@@ -265,6 +265,18 @@
     stroke-dasharray: 10px 5px;
 }
 
+.uit-visual__chart-marker-label {
+    font-family: 'Guardian Sans Web';
+    font-size: 14px;
+    fill: $c-light-red;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.uit-visual__chart-marker-background {
+    fill: $c-white;
+}
+
 .uit-visual__chart-tick {
     stroke: $c-light-grey;
     stroke-dasharray: 1px 1px;
