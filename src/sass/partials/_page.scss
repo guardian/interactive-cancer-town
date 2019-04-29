@@ -188,6 +188,14 @@ figure.interactive-atom {
         }
     }
 
+    .element--showcase + h2 {
+        @include mq(leftCol) {
+            margin-top: -8px;
+            margin-bottom: 3px;
+            padding: 0;
+        }
+    }
+
     p {
         margin-bottom: 1.5rem;
     }
