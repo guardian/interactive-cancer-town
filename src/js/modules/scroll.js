@@ -9,22 +9,32 @@ let currentSlide = {};
 export default {
     init: function() {
         this.bindings();
-
-        $('body').one('chart-injected',  function() {
-            hasChart = true;
-        }.bind(this));
+        this.onScroll();
     },
 
     bindings: function() {
-        $(window).scroll(function() {
-            this.updateValues();
-            this.setClassesFor('.uit-slides--header');
-            if (hasChart) {
-                this.setClassesFor('.uit-slides--chart');
-            }
+        $('body').one('chart-injected',  function() {
+            hasChart = true;
         }.bind(this));
 
-        // do resize here
+        $(window).scroll(function() {
+            this.onScroll();
+        }.bind(this));
+
+        $(window).resize(function() {
+            this.updateValues();
+            this.onScroll();
+            map.resize();
+            chart.resize();
+        }.bind(this));
+    },
+
+    onScroll: function() {
+        this.updateValues();
+        this.setClassesFor('.uit-slides--header');
+        if (hasChart) {
+            this.setClassesFor('.uit-slides--chart');
+        }
     },
 
     updateValues: function() {
@@ -67,6 +77,8 @@ export default {
                 currentSlide[visualName] = whatSlide;
                 $visuals.removeClass('is-end is-fixed is--0 is--1 is--2 is--3').addClass('is-fixed is--' + whatSlide);
             }
+        } else {
+            $visuals.removeClass('is-fixed');
         }
     },
 
