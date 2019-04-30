@@ -8,6 +8,6 @@ import map from './modules/map.js';
 import chart from './modules/chart.js';
 
 share.init();
-scroll.init();
 map.init();
 chart.init();
+scroll.init();
