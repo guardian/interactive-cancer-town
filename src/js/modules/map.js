@@ -9,17 +9,15 @@ let layers = [
         fillScale: .8
     },
     {
-        url: '{{ path }}/assets/louisiana.png',
+        url: '{{ path }}/assets/louisiana.svg',
         coords: [[-94.13945383090473, 33.287156474194146],[-88.91863607235484, 28.785983009532934]],
         fillScale: .8
     },
     {
-        url: '{{ path }}/assets/reserve.jpg',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
         fillScale: 1.5
     },
     {
-        url: '{{ path }}/assets/reserve.jpg',
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
         fillScale: 2
     }
@@ -123,6 +121,7 @@ export default {
         g.selectAll('.uit-visuals__map-image--base')
             .data(layers)
             .enter()
+            .filter(function(d) { return d.url !== undefined; })
             .append('svg:image')
             .attr('xlink:href', function(d) { return d.url })
             .attr('class', function(d, i) { return 'uit-visuals__map-image uit-visuals__map-image--base uit-visuals__map-image--' + i})
