@@ -6,20 +6,24 @@ let layers = [
     {
         url: '{{ path }}/assets/america.svg',
         coords: [[-128.147851146563, 47.92186873427608],[-74.19975764977926, 23.12732698168454]],
-        fillScale: .8
+        fillScale: .8,
+        mobileFillScale: 1
     },
     {
         url: '{{ path }}/assets/louisiana.svg',
         coords: [[-94.17945383090473, 33.325156474194146],[-88.84663607235484, 28.755983009532934]],
-        fillScale: .8
+        fillScale: .8,
+        mobileFillScale: 1.1
     },
     {
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
-        fillScale: 1.5
+        fillScale: 1.5,
+        mobileFillScale: 1.7
     },
     {
         coords: [[-90.7498, 30.2383], [-90.2012, 29.8341]],
-        fillScale: 2
+        fillScale: 2,
+        mobileFillScale: 2
     }
 ];
 
@@ -166,7 +170,7 @@ export default {
             dy = projection(coords[1])[1] - projection(coords[0])[1],
             x = (projection(coords[0])[0] + projection(coords[1])[0]) / 2,
             y = (projection(coords[0])[1] + projection(coords[1])[1]) / 2,
-            scale = Math.max(0.2, Math.min(1000, layer.fillScale / Math.max(dx / width, dy / height))),
+            scale = Math.max(0.2, Math.min(1000, (isMobile ? layer.mobileFillScale : layer.fillScale) / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y],
             duration = instant? 0 : 750;
 
