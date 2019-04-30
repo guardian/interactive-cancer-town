@@ -49,11 +49,11 @@ export default {
             $visuals = $(container).find('.uit-visuals'),
             visualsHeight = $visuals.height(),
             $slides = $container.find('.uit-slide'),
-            numberOfSlides = $slides.length,
+            numberOfSlides = $slides.length - 1,
             visualName = container.replace('.uit-slides--', '');
 
         if (scrollTop + visualsHeight > nextPosition) {
-            $visuals.removeClass('is-fixed').addClass('is-end is--' + (numberOfSlides - 1));
+            $visuals.removeClass('is-fixed').addClass('is-end is--' + numberOfSlides);
         } else if (scrollTop > containerPosition) {
             let whatSlide;
 
@@ -76,6 +76,8 @@ export default {
             if (currentSlide[visualName] !== whatSlide) {
                 currentSlide[visualName] = whatSlide;
                 $visuals.removeClass('is-end is-fixed is--0 is--1 is--2 is--3').addClass('is-fixed is--' + whatSlide);
+            } else if (currentSlide[visualName] == numberOfSlides) {
+                $visuals.removeClass('is-end').addClass('is-fixed');
             }
         } else {
             $visuals.removeClass('is-fixed');
