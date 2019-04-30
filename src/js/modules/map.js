@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-let width, height, svg, ctx, projection, zoom, scale, translate, placeNames, currentLayer = 0;
+let width, height, svg, ctx, projection, zoom, scale, translate, placeNames, currentLayer = 0, isMobile;
 
 let layers = [
     {
@@ -88,6 +88,7 @@ export default {
     },
 
     createMap: function() {
+        isMobile = $(window).width() < 768;
         width = $('.uit-visual__map').width();
         height = $('.uit-visual__map').height();
         svg = d3.select('#uit-visual__map')
@@ -102,7 +103,7 @@ export default {
             placeLabels.attr('style', 'font-size: ' + (16 / transform.k) + 'px');
             placeLabels.select('circle').attr('r', 4 / transform.k);
             placeLabels.select('text').attr('y', -10 / transform.k);
-            stateLabels.attr('style', 'font-size: ' + (24 / transform.k) + 'px');
+            stateLabels.attr('style', 'font-size: ' + ((isMobile ? 18 : 24) / transform.k) + 'px');
         }.bind(this));
 
         var g = svg.append('g');
