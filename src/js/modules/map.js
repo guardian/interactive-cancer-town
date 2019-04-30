@@ -175,8 +175,10 @@ export default {
     },
 
     trigger: function(layer) {
-        currentLayer = layer;
-        this.zoomTo(layers[layer]);
+        if (currentLayer !== layer) {
+            currentLayer = layer;
+            this.zoomTo(layers[layer]);
+        }
     },
 
     resize: function() {

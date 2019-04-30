@@ -1,80 +1,77 @@
-import 'intersection-observer';
-import scrollama from 'scrollama';
 import map from '../modules/map.js';
 import chart from '../modules/chart.js';
 
-let currentSlide = 0;
+let scrollTop, windowHeight;
+
+let hasChart = false;
+let currentSlide = {};
 
 export default {
     init: function() {
-        this.createTracking('.uit-slides--header');
+        this.bindings();
 
         $('body').one('chart-injected',  function() {
-            this.createTracking('.uit-slides--chart')
+            hasChart = true;
         }.bind(this));
     },
 
-    createTracking: function(parent) {
-        let scroller = scrollama();
-
-        scroller.setup({
-            step: parent + ' .uit-slide',
-            offset: 0.4,
-            progress: true,
-            order: true
-        })
-        .onStepProgress(this.onSlideProgress);
-
-        // scrollama for entire block
-        let visualsScroller = scrollama();
-
-        visualsScroller.setup({
-            step: parent,
-            offset: 0,
-            progress: true
-        })
-        .onStepProgress(this.onHeaderProgress);
-
-        $(window).resize(function() {
-            scroller.resize();
-            visualsScroller.resize();
-            map.resize();
-            chart.resize();
+    bindings: function() {
+        $(window).scroll(function() {
+            this.updateValues();
+            this.setClassesFor('.uit-slides--header');
+            if (hasChart) {
+                this.setClassesFor('.uit-slides--chart');
+            }
         }.bind(this));
+
+        // do resize here
     },
 
-    onSlideProgress: function(obj) {
-        if (currentSlide !== obj.index) {
-            currentSlide = obj.index;
+    updateValues: function() {
+        scrollTop = $(window).scrollTop();
+    },
 
-            const $parent = $(obj.element).parent();
+    setClassesFor: function(container) {
+        var $container = $(container),
+            containerHeight = $container.height(true),
+            containerPosition = $container.offset().top,
+            nextPosition = $container.next().offset().top,
+            $visuals = $(container).find('.uit-visuals'),
+            visualsHeight = $visuals.height(),
+            $slides = $container.find('.uit-slide'),
+            numberOfSlides = $slides.length,
+            visualName = container.replace('.uit-slides--', '');
 
-            $parent.find('.uit-visuals').removeClass('is--0 is--1 is--2 is--3').addClass('is--' + currentSlide);
+        if (scrollTop + visualsHeight > nextPosition) {
+            $visuals.removeClass('is-fixed').addClass('is-end is--' + (numberOfSlides - 1));
+        } else if (scrollTop > containerPosition) {
+            let whatSlide;
 
-            if ($parent.hasClass('uit-slides--header')) {
-                if (obj.index === 3) {
-                    $parent.find('.uit-visual__map').addClass('is-done');
-                    $('.uit-visual__video')[0].currentTime = 0;
-                } else {
-                    $parent.find('.uit-visual__map').removeClass('is-done');
+            $slides.each(function(i, el) {
+                if (scrollTop > $(el).offset().top - this.percentageOfHeight(40)) {
+                    whatSlide = i;
                 }
-                map.trigger(obj.index);
-            } else {
-                chart.trigger(obj.index);
+            }.bind(this));
+
+            if (visualName === 'header') {
+                map.trigger(whatSlide)
+            } else if (visualName === 'chart') {
+                chart.trigger(whatSlide);
             }
 
+            if (!currentSlide[visualName]) {
+                currentSlide[visualName] = null;
+            }
+
+            if (currentSlide[visualName] !== whatSlide) {
+                currentSlide[visualName] = whatSlide;
+                $visuals.removeClass('is-end is-fixed is--0 is--1 is--2 is--3').addClass('is-fixed is--' + whatSlide);
+            }
         }
     },
 
-    onHeaderProgress: function(obj) {
-        const $parent = $(obj.element);
-
-        $parent.find('.uit-visuals').removeClass('is-end is-fixed');
-
-        if (obj.progress >= 1 || $parent.next().offset().top - $parent.find('.uit-visuals').outerHeight(true) < $(window).scrollTop()) {
-            $parent.find('.uit-visuals').addClass('is-end');
-        } else if (obj.progress > 0) {
-            $parent.find('.uit-visuals').addClass('is-fixed');
-        }
+    percentageOfHeight: function(percentage) {
+        const windowHeight = $(window).height();
+        return windowHeight / 100 * percentage;
     }
 }

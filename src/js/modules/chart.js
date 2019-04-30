@@ -319,9 +319,11 @@ export default {
     },
 
     trigger: function(index) {
-        currentState = index;
-        this.renderState(index, true);
+        if (currentState !== index) {
+            currentState = index;
+            this.renderState(index, true);
 
-        y.domain(states[index].domain);
+            y.domain(states[index].domain);
+        }
     }
 }

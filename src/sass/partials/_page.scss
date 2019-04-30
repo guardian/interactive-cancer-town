@@ -40,6 +40,11 @@ figure.interactive-atom {
     z-index: 20;
 }
 
+// hide header on mobile
+.article__header {
+    display: none !important;
+}
+
 .content__main,
 .prose {
     .gs-container.u-cf {
