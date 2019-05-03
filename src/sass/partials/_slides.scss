@@ -1,6 +1,7 @@
 .uit-slides {
     position: relative;
     margin: 0 -10px;
+    background-color: #f6f6f6;
 
     @include mq(mobileLandscape) {
         margin: 0 -20px;
