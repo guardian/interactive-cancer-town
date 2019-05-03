@@ -3,11 +3,11 @@ import jquery from 'jquery';
 window.$ = jquery;
 
 import share from './modules/share.js';
-import scroll from './modules/scroll.js';
 import map from './modules/map.js';
 import chart from './modules/chart.js';
+import scroll from './modules/scroll.js';
 
-share.init();
 map.init();
 chart.init();
+share.init();
 scroll.init();

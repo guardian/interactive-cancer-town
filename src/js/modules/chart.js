@@ -182,6 +182,7 @@ export default {
             var target = this.findPlaceToInject();
 
             $(target).replaceWith(chartHTML);
+            console.log(chartHTML);
             $('body').trigger('chart-injected');
 
             const parseTime = d3.timeParse("%Y %m");
