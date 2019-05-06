@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import chartHTML from '../templates/chart.html';
+import seriesHTML from '../templates/series.html';
 
 let svg, ctx, y, x, margin, height, width, valueLine, isFirst = true, currentState = 0;
 
@@ -177,12 +178,23 @@ export default {
         return $el;
     },
 
+    findPlaceToInjectSeries: function() {
+        var $el;
+        $('p').each(function(i, el) {
+            if ($(el).text() == '[series linker]') {
+                $el = el;
+            }
+        });
+        return $el;
+    },
+
     createChart: function() {
         if (isFirst) {
             var target = this.findPlaceToInject();
+            var targetSeries = this.findPlaceToInjectSeries();
 
             $(target).replaceWith(chartHTML);
-            console.log(target);
+            $(targetSeries).replaceWith(seriesHTML);
             $('body').trigger('chart-injected');
 
             const parseTime = d3.timeParse("%Y %m");

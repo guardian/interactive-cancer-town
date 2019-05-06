@@ -1,31 +1,39 @@
-.wrapper--cancer {
+.linker--cancer {
     .title,
     .links a {
-        color: $c-color;
+        color: $c-red;
     }
 
     .link:hover:after {
-        background-color: $c-color;
-        border-color: $c-color;
+        background-color: $c-red;
+        border-color: $c-red;
     }
 
-    .button {
-        background-color: $c-color;
+    .series_button {
+        background-color: $c-red;
+        color: #fff !important;
 
         &:hover {
-            background-color: darken($c-color, 5%);
+            background-color: darken($c-red, 5%);
         }
     }
 }
 
-.wrapper {
+.linker {
     position: relative;
     border-top: 1px solid $c-light-grey;
     border-bottom: 1px solid $c-light-grey;
-    max-width: 420px;
+    max-width: 360px;
+    float: left;
+    margin-right: 20px;
+    background-color: $c-white;
+
+    @include mq(1600px) {
+        margin-left: -80px;
+    }
 }
 
-.wrapper--tint {
+.linker--tint {
     background-color: #fef9f5;
 }
 
@@ -59,7 +67,7 @@
     }
 }
 
-a.button {
+a.series_button {
     background-color: #60546B;
     position: relative;
     display: inline-block;
@@ -81,7 +89,7 @@ a.button {
         background-position: right center;
     }
 }
-.button svg{
+.series_button svg{
     position: absolute;
     right: 4px;
     top: 0;
@@ -90,7 +98,7 @@ a.button {
     fill: #fff;
     transition: transform 0.4s ease-out;
 }
-.button svg path{
+.series_button svg path{
     fill: #fff;
 }
 
