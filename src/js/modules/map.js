@@ -7,7 +7,7 @@ let layers = [
         url: '{{ path }}/assets/america.svg',
         coords: [[-128.147851146563, 47.92186873427608],[-74.19975764977926, 23.12732698168454]],
         fillScale: .8,
-        mobileFillScale: 1
+        mobileFillScale: 0.95
     },
     {
         url: '{{ path }}/assets/louisiana.svg',
@@ -63,17 +63,17 @@ let states = [
 let places = [
     {
         text: 'Reserve',
-        coords: [-90.523362, 30.056484],
+        coords: [-90.533362, 30.077484],
         layer: 2
     },
     {
         text: 'New Orleans',
-        coords: [-90.0715, 29.9511],
+        coords: [-90.0915, 29.9511],
         layer: 1
     },
     {
         text: 'Baton Rouge',
-        coords: [-91.1871, 30.4515],
+        coords: [-91.2271, 30.4515],
         layer: 1
     }
 ]
