@@ -46,21 +46,6 @@
     }
 }
 
-.uit-header-content {
-    position: relative;
-    padding-top: 6px;
-    max-width: 860px;
-    padding-left: 10px;
-
-    @include mq(leftCol) {
-        margin-left: 100px;
-    }
-
-    @include mq(wide) {
-        margin-left: 180px;
-    }
-}
-
 .uit-content {
     position: relative;
     max-width: 620px;
@@ -72,16 +57,4 @@
     @include mq(wide) {
         margin-left: 240px;
     }
-
-    // &:before {
-    //     @include mq(leftCol) {
-    //         content: '';
-    //         position: absolute;
-    //         top: 0;
-    //         bottom: 0;
-    //         left: -10px;
-    //         width: 1px;
-    //         background-color: $c-light-grey;
-    //     }
-    // }
 }
